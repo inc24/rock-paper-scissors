@@ -1,29 +1,34 @@
+let humanScore = 0;
+let computerScore = 0;
+
 function getComputerChoice() {
     let random = Math.floor(Math.random() * 3);
 
     switch (true) {
         case random === 0:
-            console.log(`rock`)
-            break;
+            return `rock`
         
         case random === 1:
-            console.log(`paper`)
-            break;
+            return `paper`
 
         case random === 2:
-            console.log(`scissors`)
-            break;
+            return `scissors`
     }
-    
-    // if (random === 0) {
-    //     console.log(`rock`)
-    // } else if (random === 1) {
-    //     console.log(`paper`)
-    // } else if (random === 2) {
-    //     console.log(`scissors`)
-    // } else {
-    //     console.log(null)
-    // }
 }
 
-getComputerChoice();
+console.log(getComputerChoice());
+
+function getHumanChoice() {
+    return prompt(`Rock-Paper-Scissors game! Make choice: (rock/paper/scissors)`, ``);
+}
+
+console.log(getHumanChoice());
+
+function playRound(humanChoice, computerChoice) {
+  // your code here!
+}
+
+const humanSelection = getHumanChoice();
+const computerSelection = getComputerChoice();
+
+playRound(humanSelection, computerSelection);
