@@ -22,8 +22,12 @@ function getHumanChoice() {
 
 function playRound(humanChoice, computerChoice) {
     humanChoice = humanChoice.toLowerCase();
+
+    const winString = `You win`;
+    const loseString = `You lose`;
+    const drawString = `Draw`;
     
-    let result = 
+    const result = 
     (humanChoice === `rock` && computerChoice == `paper`) ? `❌ You lose! Paper beats Rock` : 
     (humanChoice === `rock` && computerChoice == `scissors`) ? `🎉 You win! Rock beats Scissors` : 
     (humanChoice === `rock` && computerChoice == `rock`) ? `Draw!` : 
@@ -38,9 +42,21 @@ function playRound(humanChoice, computerChoice) {
     null;
 
     (result != null) ? alert(`Your choice: ${humanChoice}.\nComputer choice: ${computerChoice}.\n${result}`) : alert(`Try again!`);
+
+    switch (true) {
+        case result.includes(winString):
+            humanScore++;
+            break;
+
+        case result.includes(loseString):
+            computerScore++;
+            break;
+    }
 }
 
 const humanSelection = getHumanChoice();
 const computerSelection = getComputerChoice();
 
 playRound(humanSelection, computerSelection);
+
+alert(`Scores:\nYou: ${humanScore}\nComputer: ${computerScore}`)
