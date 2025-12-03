@@ -1,65 +1,59 @@
-let humanScore = 0;
 let computerScore = 0;
+let humanScore = 0;
+let roundCount = 0;
 
 function getComputerChoice() {
     let random = Math.floor(Math.random() * 3);
 
-    switch (true) {
-        case random === 0:
-            return `rock`
-        
-        case random === 1:
-            return `paper`
-
-        case random === 2:
-            return `scissors`
-    }
+    return (random === 0) ? `rock` : (random === 1) ? `paper` : `scissors`;
 }
 
 function getHumanChoice() {
-    return prompt(`Rock-Paper-Scissors game! Make choice: (rock/paper/scissors)`, ``);
+    return prompt(`Make a choice: (rock / paper / scissors)`, ``).toLowerCase();
 }
 
-function playRound(humanChoice, computerChoice) {
-    humanChoice = humanChoice.toLowerCase();
-
-    const winString = `You win`;
-    const loseString = `You lose`;
+function playRound(computerChoice, humanChoice) {
+    const acceptableValues = [`rock`, `paper`, `scissors`];
     
-    const roundResult = 
-    (humanChoice === `rock` && computerChoice == `paper`) ? `❌ You lose! Paper beats Rock` : 
-    (humanChoice === `rock` && computerChoice == `scissors`) ? `🎉 You win! Rock beats Scissors` : 
-    (humanChoice === `rock` && computerChoice == `rock`) ? `Draw!` : 
-    
-    (humanChoice === `paper` && computerChoice == `paper`) ? `Draw!` : 
-    (humanChoice === `paper` && computerChoice == `scissors`) ? `❌ You lose! Scissors beats Paper` : 
-    (humanChoice === `paper` && computerChoice == `rock`) ? `🎉 You win! Paper beats Rock` : 
+    if (computerChoice === humanChoice) {
+        alert(`Your choice: ${humanChoice.toUpperCase()}.\nComputer choice: ${computerChoice.toUpperCase()}.\nDraw!`)
+        alert(`Scores:\nYou: ${humanScore}\nComputer: ${computerScore}`);
 
-    (humanChoice === `scissors` && computerChoice == `paper`) ? `🎉 You win! Scissors beats Paper` : 
-    (humanChoice === `scissors` && computerChoice == `scissors`) ? `Draw!` : 
-    (humanChoice === `scissors` && computerChoice == `rock`) ? `❌ You lose! Rock beats Scissors` : 
-    null;
+    } else if (computerChoice === `rock` && humanChoice === `paper` || 
+                computerChoice === `paper` && humanChoice === `scissors` || 
+                computerChoice === `scissors` && humanChoice === `rock`) {
+                    humanScore++;
+                    alert(`Your choice: ${humanChoice.toUpperCase()}.\nComputer choice: ${computerChoice.toUpperCase()}.\n🎉 You won the round! ${humanChoice.toUpperCase()} beats ${computerChoice.toUpperCase()}.`);
+                    alert(`Scores:\nYou: ${humanScore}\nComputer: ${computerScore}`);
 
-    (roundResult != null) ? alert(`Your choice: ${humanChoice}.\nComputer choice: ${computerChoice}.\n${roundResult}`) : alert(`Try again!`);
+                } else if (acceptableValues.includes(humanChoice)) {
+                    computerScore++;
+                    alert(`Your choice: ${humanChoice.toUpperCase()}.\nComputer choice: ${computerChoice.toUpperCase()}.\n😭 You lost the round! ${computerChoice.toUpperCase()} beats ${humanChoice.toUpperCase()}.`);
+                    alert(`Scores:\nYou: ${humanScore}\nComputer: ${computerScore}`);
 
-    switch (true) {
-        case roundResult.includes(winString):
-            humanScore++;
-            break;
+                } else {
+                    roundCount--;
+                    alert(`Please enter the correct word.`)
 
-        case roundResult.includes(loseString):
-            computerScore++;
-            break;
-    }
+                }
 }
 
 function playGame() {
-    for (let i = 1; i <= 5; i++) {
-        const humanSelection = getHumanChoice();
+    let numberRounds = prompt(`Rock-Paper-Scissors game!\nHow many rounds?`,`5`);
+
+    while (isNaN(numberRounds) || numberRounds.trim() === "" || numberRounds === `0`) {
+        numberRounds = prompt(`Please enter the number of rounds.`,``);
+    }
+
+    for (roundCount = 1; roundCount <= numberRounds; roundCount++) {   
         const computerSelection = getComputerChoice();
-        playRound(humanSelection, computerSelection);
-        alert(`Scores:\nYou: ${humanScore}\nComputer: ${computerScore}`);
+        const humanSelection = getHumanChoice();
+        playRound(computerSelection, humanSelection);
      }
+
+     (humanScore > computerScore) ? alert(`Total Scores:\nYou: ${humanScore}\nComputer: ${computerScore}\nYOU WIN! 🎉🎉🎉`) : 
+     (humanScore < computerScore) ? alert(`Total Scores:\nYou: ${humanScore}\nComputer: ${computerScore}\nYou lost the game. 😭`) : 
+     (humanScore === computerScore) ? alert(`The game ended in a draw! 😊`) : null;
 }
 
 playGame();
